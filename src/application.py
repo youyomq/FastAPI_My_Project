@@ -1,8 +1,14 @@
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent))
+
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
-from src.healthcheck.router import router
+from src.api.records import router as records_router
+
 
 
 def get_app() -> FastAPI:
@@ -27,6 +33,6 @@ def get_app() -> FastAPI:
         allow_headers=['*'],
     )
 
-    app.include_router(router)
+    app.include_router(records_router)
 
     return app

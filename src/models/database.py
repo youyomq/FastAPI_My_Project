@@ -1,8 +1,12 @@
-import uuid
-from uuid import UUID
-
 import sqlalchemy as sa
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeMeta, Mapped, declarative_base, mapped_column
+
+from src.config import settings
+
+engine=create_async_engine(str(settings.postgres_url))
+async_session_maker = async_sessionmaker(bind=engine, expire_on_commit=False)
+
 
 metadata = sa.MetaData()
 
@@ -17,7 +21,4 @@ class BaseServiceModel:
 
 Base: DeclarativeMeta = declarative_base(metadata=metadata, cls=BaseServiceModel)
 
-class UserModel(Base):
-    __tablename__ = 'users'
-    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid.uuid4())
-    username: Mapped[str] = mapped_column(sa.String())
+
