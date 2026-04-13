@@ -8,8 +8,10 @@ from logging.config import fileConfig
 
 from src.config import settings
 from src.models.database import Base
-from src.models.records_oto_child import RecordsChildOrm
-from src.models.records_oto_parent import RecordsParentOrm
+from src.models.records_oto_child import RecordsOTOChildOrm
+from src.models.records_oto_parent import RecordsOTOParentOrm
+from src.models.records_otm_child import RecordsOTMChildOrm
+from src.models.records_otm_parent import RecordsOTMParentOrm
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection

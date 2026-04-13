@@ -4,7 +4,9 @@ from sqlalchemy.orm import DeclarativeMeta, Mapped, declarative_base, mapped_col
 
 from src.config import settings
 
-engine=create_async_engine(str(settings.postgres_url))
+engine=create_async_engine(
+    str(settings.postgres_url)
+)
 async_session_maker = async_sessionmaker(bind=engine, expire_on_commit=False)
 
 

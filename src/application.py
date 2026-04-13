@@ -7,8 +7,8 @@ from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
-from src.api.records import router as records_router
-
+from src.api.records_oto import router as records_oto_router
+from src.api.records_otm import router as records_otm_router
 
 
 def get_app() -> FastAPI:
@@ -33,6 +33,7 @@ def get_app() -> FastAPI:
         allow_headers=['*'],
     )
 
-    app.include_router(records_router)
+    app.include_router(records_oto_router)
+    app.include_router(records_otm_router)
 
     return app

@@ -1,19 +1,19 @@
 from fastapi import APIRouter
 
-from api.dependencies import DBDep
-from schemas.records_oto_child import RecordOTOChildRequestAdd
-from schemas.records_oto_parent import RecordOTOParentRequestAdd
-from services.records import RecordService
+from src.api.dependencies import DBDep
+from src.schemas.records_oto_child import RecordOTOChildRequestAdd
+from src.schemas.records_oto_parent import RecordOTOParentRequestAdd
+from src.services.records_oto import RecordOTOService
 
 
-router = APIRouter(prefix="/records")
+router = APIRouter(prefix="/records_oto", tags=["Records OTO Relationship"])
 
 
 @router.get("/parent")
 async def get_all_parent_oto_records(
         db: DBDep
 ):
-    parent_records = await RecordService(db).get_all_parent_records()
+    parent_records = await RecordOTOService(db).get_all_parent_records()
 
     return {"status": "ok", "data": parent_records}
 
@@ -23,7 +23,7 @@ async def add_parent_oto_record(
         db: DBDep,
         record_parent_data: RecordOTOParentRequestAdd
 ):
-    await RecordService(db).add_one_parent_record(record_parent_data)
+    await RecordOTOService(db).add_one_parent_record(record_parent_data)
     await db.commit()
     return {"status": "ok"}
 
@@ -34,7 +34,7 @@ async def edit_parent_oto_record(
         record_parent_id: int,
         record_parent_data: RecordOTOParentRequestAdd
 ):
-    await RecordService(db).edit_parent_record(record_parent_id=record_parent_id, record_parent_data=record_parent_data)
+    await RecordOTOService(db).edit_parent_record(record_parent_id=record_parent_id, record_parent_data=record_parent_data)
     await db.commit()
 
     return {"status": "ok"}
@@ -45,7 +45,7 @@ async def delete_parent_oto_record(
         db: DBDep,
         record_parent_id: int
 ):
-    await RecordService(db).delete_parent_oto_record(record_parent_id)
+    await RecordOTOService(db).delete_parent_oto_record(record_parent_id)
     await db.commit()
 
     return {"status": "ok"}
@@ -55,7 +55,7 @@ async def delete_parent_oto_record(
 async def get_all_child_oto_records(
         db: DBDep
 ):
-    child_records = await RecordService(db).get_all_child_records()
+    child_records = await RecordOTOService(db).get_all_child_records()
 
     return {"status": "ok", "data": child_records}
 
@@ -65,7 +65,7 @@ async def add_child_oto_record(
         db: DBDep,
         record_child_data: RecordOTOChildRequestAdd
 ):
-    await RecordService(db).add_one_child_record(record_child_data)
+    await RecordOTOService(db).add_one_child_record(record_child_data)
     await db.commit()
     return {"status": "ok"}
 
@@ -76,7 +76,7 @@ async def edit_child_oto_record(
         record_child_id: int,
         record_child_data: RecordOTOChildRequestAdd
 ):
-    await RecordService(db).edit_child_record(record_child_data=record_child_data, record_child_id=record_child_id)
+    await RecordOTOService(db).edit_child_record(record_child_data=record_child_data, record_child_id=record_child_id)
     await db.commit()
 
     return {"status": "ok"}
@@ -87,7 +87,7 @@ async def delete_child_oto_record(
         db: DBDep,
         record_child_id: int
 ):
-    await RecordService(db).delete_child_oto_record(record_child_id)
+    await RecordOTOService(db).delete_child_oto_record(record_child_id)
     await db.commit()
 
     return {"status": "ok"}
