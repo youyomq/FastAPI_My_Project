@@ -7,15 +7,12 @@ from src.api.dependencies import DBDep
 
 router = APIRouter(prefix="/records_otm")
 
-@router.get("/check_health")
-async def check_health():
-    return {"status": "ok"}
-
-@router.get("/parent")
-async def get_all_parent_otm_records(
-        db: DBDep
+@router.get("/parent/{record_parent_id}")
+async def get_one_parent_otm_record(
+        db: DBDep,
+        record_parent_id: int
 ):
-    parent_records = await RecordOTMService(db).get_all_parent_otm_records()
+    parent_records = await RecordOTMService(db).get_one_parent_otm_record(record_parent_id=record_parent_id)
 
     return {"status": "ok", "data": parent_records}
 
@@ -31,6 +28,24 @@ async def add_one_parent_otm_records(
     return {"status": "ok"}
 
 
+@router.put("/edit_parent/{record_parent_id}")
+async def edit_one_parent_otm_record(
+        db: DBDep,
+        record_parent_id: int
+):
+
+
+@router.delete("/delete_parent/{record_parent_id}")
+async def delete_one_parent_otm_records(
+        db: DBDep,
+        record_parent_id: int
+):
+    await RecordOTMService(db).delete_parent_otm_record(record_parent_id=record_parent_id)
+    await db.commit()
+
+    return {"status": "ok"}
+
+
 @router.get("/child")
 async def get_all_child_otm_records(
         db: DBDep
@@ -38,6 +53,7 @@ async def get_all_child_otm_records(
     child_records = await RecordOTMService(db).get_all_child_otm_records()
 
     return {"status": "ok", "data": child_records}
+
 
 @router.post("/add_child")
 async def add_one_child_otm_record(

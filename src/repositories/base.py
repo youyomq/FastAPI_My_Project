@@ -1,3 +1,6 @@
+from time import sleep
+from typing import Sequence
+
 from pydantic import BaseModel
 from sqlalchemy import select, insert, update, delete
 
@@ -20,10 +23,17 @@ class BaseRepository:
         return [self.mapper.map_to_domain_entity(item) for item in result.scalars().all()]
 
 
-    async def add_one(self, **data):
-        stmt = insert(self.model).values(**data)
+    async def add_one(self, data: BaseModel):
+        stmt = insert(self.model).values(**data.model_dump()).returning(self.model)
 
-        await self.session.execute(stmt)
+        result = await self.session.execute(stmt)
+        model = result.scalars().one()
+
+        return self.mapper.map_to_domain_entity(model)
+
+    async def add_bulk(self, data: Sequence[BaseModel]):
+        add_stmt = insert(self.model).values([i.model_dump() for i in data])
+        await self.session.execute(add_stmt)
 
 
     async def edit_one(self, data: BaseModel, exclude_unset: bool = False, **filter_by):
@@ -33,6 +43,7 @@ class BaseRepository:
 
         await self.session.execute(stmt)
 
+    async def edit_bulk(self, ):
 
     async def delete(self, **filter_by):
         stmt = delete(self.model).filter_by(**filter_by)

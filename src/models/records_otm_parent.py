@@ -15,5 +15,6 @@ class RecordsOTMParentOrm(Base):
     parent_value: Mapped[str] = mapped_column(String(length=100))
 
     child_values: Mapped[list["RecordsOTMChildOrm"]] = relationship(
+        back_populates="parent_values",
         secondary="records_otm_parent_child"
     )

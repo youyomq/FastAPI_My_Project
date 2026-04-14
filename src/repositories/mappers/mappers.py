@@ -1,9 +1,10 @@
-from src.models.records_otm_child import RecordsOTMChildOrm
-from src.schemas.records_otm_child import RecordOTMChildAdd
+from src.models.records_otm_child import RecordsOTMChildOrm, RecordsOTMParentChildOrm
+from src.schemas.records_otm_child import RecordOTMChildAdd, RecordOTMParentChildAdd, RecordOTMParentChild, \
+    RecordOTMChild
 from src.models.records_otm_parent import RecordsOTMParentOrm
 from src.models.records_oto_parent import RecordsOTOParentOrm
 from src.models.records_oto_child import RecordsOTOChildOrm
-from src.schemas.records_otm_parent import RecordOTMParentAdd
+from src.schemas.records_otm_parent import RecordOTMParent, RecordOTMParentWithRels
 from src.schemas.records_oto_child import RecordOTOChildAdd
 from src.repositories.mappers.base import DataMapper
 from src.schemas.records_oto_parent import RecordOTOParentAdd
@@ -21,9 +22,13 @@ class RecordOTOChildDataMapper(DataMapper):
 
 class RecordOTMParentDataMapper(DataMapper):
     db_model = RecordsOTMParentOrm
-    schema = RecordOTMParentAdd
+    schema = RecordOTMParent
 
 
 class RecordOTMChildDataMapper(DataMapper):
     db_model = RecordsOTMChildOrm
-    schema = RecordOTMChildAdd
+    schema = RecordOTMChild
+
+class RecordsOTMParentChildDataMapper(DataMapper):
+    db_model = RecordsOTMParentChildOrm
+    schema = RecordOTMParentWithRels
