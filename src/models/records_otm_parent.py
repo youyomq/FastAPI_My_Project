@@ -1,20 +1,12 @@
-import typing
-
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from src.models.database import Base
+from sqlalchemy import String, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, MapperEvents
 
-if typing.TYPE_CHECKING:
-    from src.models.records_otm_child import RecordsOTMChildOrm
 
 class RecordsOTMParentOrm(Base):
     __tablename__ = "records_otm_parent"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    parent_value: Mapped[str] = mapped_column(String(length=100))
-
-    child_values: Mapped[list["RecordsOTMChildOrm"]] = relationship(
-        back_populates="parent_values",
-        secondary="records_otm_parent_child"
-    )
+    parent_id: Mapped[int] = mapped_column()
+    parent_value: Mapped[str] = mapped_column(String())
+    fk_id: Mapped[int] = mapped_column(ForeignKey("records_otm_child.id"))

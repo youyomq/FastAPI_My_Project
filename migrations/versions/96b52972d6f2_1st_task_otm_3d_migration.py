@@ -1,4 +1,4 @@
-"""1st task otm 3d migration
+"""1st task mtm 3d migration
 
 Revision ID: 96b52972d6f2
 Revises: 652862899494

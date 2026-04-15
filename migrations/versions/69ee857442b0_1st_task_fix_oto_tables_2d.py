@@ -1,4 +1,4 @@
-"""1st task fix oto tables 2d
+"""1st task fix OTO tables 2d
 
 Revision ID: 69ee857442b0
 Revises: d70be0cb55bf

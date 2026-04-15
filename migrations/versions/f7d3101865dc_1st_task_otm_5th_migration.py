@@ -1,4 +1,4 @@
-"""1st task otm 5th migration
+"""1st task mtm 5th migration
 
 Revision ID: f7d3101865dc
 Revises: 919f247b8dbf

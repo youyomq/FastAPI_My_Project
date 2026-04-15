@@ -14,13 +14,16 @@ class BaseRepository:
     def __init__(self, session):
         self.session = session
 
-
-    async def get_all(self):
-        query = select(self.model)
+    async def get_filtered(self, **filter_by):
+        query = select(self.model).filter_by(**filter_by)
 
         result = await self.session.execute(query)
 
         return [self.mapper.map_to_domain_entity(item) for item in result.scalars().all()]
+
+
+    async def get_all(self):
+        return await self.get_filtered()
 
 
     async def add_one(self, data: BaseModel):
@@ -43,7 +46,7 @@ class BaseRepository:
 
         await self.session.execute(stmt)
 
-    async def edit_bulk(self, ):
+
 
     async def delete(self, **filter_by):
         stmt = delete(self.model).filter_by(**filter_by)

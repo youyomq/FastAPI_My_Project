@@ -1,91 +1,94 @@
 from fastapi import APIRouter
 
-from src.schemas.records_otm_parent import RecordOTMParentRequestAdd
-from src.services.records_otm import RecordOTMService
+from src.schemas.records_otm_parent import RecordOTMParentRequestAdd, RecordOTMParentPutRequest
 from src.schemas.records_otm_child import RecordOTMChildRequestAdd
+from src.services.records_otm import RecordOTMService
 from src.api.dependencies import DBDep
 
-router = APIRouter(prefix="/records_otm")
+router = APIRouter(prefix="/records_otm", tags=["Records OTM Relationship"])
 
-@router.get("/parent/{record_parent_id}")
-async def get_one_parent_otm_record(
+@router.post("/parent_record")
+async def add_one_parent_record(
         db: DBDep,
-        record_parent_id: int
-):
-    parent_records = await RecordOTMService(db).get_one_parent_otm_record(record_parent_id=record_parent_id)
-
-    return {"status": "ok", "data": parent_records}
-
-
-@router.post("/add_parent")
-async def add_one_parent_otm_records(
-        db: DBDep,
+        record_parent_id: int,
         record_parent_data: RecordOTMParentRequestAdd
 ):
-    await RecordOTMService(db).add_one_parent_otm_record(record_parent_data)
+    await RecordOTMService(db).add_parent_otm_record(record_parent_id=record_parent_id,record_parent_data=record_parent_data)
     await db.commit()
 
     return {"status": "ok"}
 
-
-@router.put("/edit_parent/{record_parent_id}")
-async def edit_one_parent_otm_record(
+@router.get("/parent_record/{record_parent_id}")
+async def get_all_for_one_parent_record(
         db: DBDep,
         record_parent_id: int
 ):
+    record_parent = await RecordOTMService(db).get_all_for_one_parent_record(record_parent_id)
+
+    return {"status": "ok", "data": record_parent}
 
 
-@router.delete("/delete_parent/{record_parent_id}")
-async def delete_one_parent_otm_records(
+@router.put("/parent_record/{record_parent_id}")
+async def edit_parent_otm_record(
         db: DBDep,
-        record_parent_id: int
+        record_id: int,
+        record_parent_data: RecordOTMParentPutRequest
 ):
-    await RecordOTMService(db).delete_parent_otm_record(record_parent_id=record_parent_id)
+    await RecordOTMService(db).edit_parent_otm_record(record_id=record_id, record_parent_data=record_parent_data)
     await db.commit()
 
     return {"status": "ok"}
 
 
-@router.get("/child")
-async def get_all_child_otm_records(
-        db: DBDep
+@router.delete("/parent_record/{record_parent_id}")
+async def delete_parent_otm_record(
+        db: DBDep,
+        record_id: int,
 ):
-    child_records = await RecordOTMService(db).get_all_child_otm_records()
+    await RecordOTMService(db).delete_parent_otm_record(record_id)
+    await db.commit()
 
-    return {"status": "ok", "data": child_records}
+    return {"status": "ok"}
 
 
-@router.post("/add_child")
-async def add_one_child_otm_record(
+@router.get("/child_record/{record_child_id}")
+async def get_one_child_otm_record(
+    db: DBDep,
+    record_child_id: int
+):
+    child_record = await RecordOTMService(db).get_one_child_otm_record(record_child_id)
+
+    return {"status": "ok", "data": child_record}
+
+@router.post("/child_record")
+async def add_child_otm_child_record(
         db: DBDep,
         record_child_data: RecordOTMChildRequestAdd
 ):
-    await RecordOTMService(db).add_one_child_otm_record(record_child_data)
+    await RecordOTMService(db).add_child_otm_record(record_child_data)
     await db.commit()
+
     return {"status": "ok"}
 
-
-@router.put("/edit_child/{record_child_id}")
-async def edit_child_otm_record(
+@router.put("/child_record/{record_child_id}")
+async def edit_one_otm_child_record(
         db: DBDep,
-        record_child_id: int,
-        record_child_data: RecordOTMChildRequestAdd
+        record_child_data: RecordOTMChildRequestAdd,
+        record_child_id: int
 ):
-    await RecordOTMService(db).edit_child_otm_record(record_child_data=record_child_data, record_child_id=record_child_id)
+    await RecordOTMService(db).edit_one_child_otm_record(record_child_id=record_child_id, record_child_data=record_child_data)
     await db.commit()
 
     return {"status": "ok"}
 
-
-@router.delete("/delete_child/{record_child_id}")
-async def delete_child_otm_record(
+@router.delete("/child_record/{record_child_id}")
+async def delete_one_child_record(
         db: DBDep,
         record_child_id: int
 ):
-    await RecordOTMService(db).delete_child_otm_record(record_child_id=record_child_id)
+    await RecordOTMService(db).delete_one_otm_record(record_child_id)
     await db.commit()
 
     return {"status": "ok"}
-
 
 

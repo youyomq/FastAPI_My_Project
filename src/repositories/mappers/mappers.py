@@ -1,10 +1,14 @@
-from src.models.records_otm_child import RecordsOTMChildOrm, RecordsOTMParentChildOrm
-from src.schemas.records_otm_child import RecordOTMChildAdd, RecordOTMParentChildAdd, RecordOTMParentChild, \
-    RecordOTMChild
+from src.schemas.records_otm_parent import RecordOTMParent
 from src.models.records_otm_parent import RecordsOTMParentOrm
+from src.schemas.records_otm_child import RecordOTMChild
+from src.models.records_otm_child import RecordsOTMChildOrm
+from src.models.records_mtm_child import RecordsMTMChildOrm, RecordsMTMParentChildOrm
+from src.schemas.records_mtm_child import RecordMTMChildAdd, RecordMTMParentChildAdd, RecordMTMParentChild, \
+    RecordMTMChild
+from src.models.records_mtm_parent import RecordsMTMParentOrm
 from src.models.records_oto_parent import RecordsOTOParentOrm
 from src.models.records_oto_child import RecordsOTOChildOrm
-from src.schemas.records_otm_parent import RecordOTMParent, RecordOTMParentWithRels
+from src.schemas.records_mtm_parent import RecordMTMParent, RecordMTMParentWithRels
 from src.schemas.records_oto_child import RecordOTOChildAdd
 from src.repositories.mappers.base import DataMapper
 from src.schemas.records_oto_parent import RecordOTOParentAdd
@@ -20,15 +24,25 @@ class RecordOTOChildDataMapper(DataMapper):
     schema = RecordOTOChildAdd
 
 
-class RecordOTMParentDataMapper(DataMapper):
-    db_model = RecordsOTMParentOrm
-    schema = RecordOTMParent
+class RecordMTMParentDataMapper(DataMapper):
+    db_model = RecordsMTMParentOrm
+    schema = RecordMTMParent
+
+
+class RecordMTMChildDataMapper(DataMapper):
+    db_model = RecordsMTMChildOrm
+    schema = RecordMTMChild
+
+class RecordsMTMParentChildDataMapper(DataMapper):
+    db_model = RecordsMTMParentChildOrm
+    schema = RecordMTMParentWithRels
 
 
 class RecordOTMChildDataMapper(DataMapper):
     db_model = RecordsOTMChildOrm
     schema = RecordOTMChild
 
-class RecordsOTMParentChildDataMapper(DataMapper):
-    db_model = RecordsOTMParentChildOrm
-    schema = RecordOTMParentWithRels
+class RecordOTMParentDataMapper(DataMapper):
+    db_model = RecordsOTMParentOrm
+    schema = RecordOTMParent
+

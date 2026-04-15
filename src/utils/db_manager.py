@@ -1,5 +1,7 @@
 from src.repositories.records_otm_parent import RecordsOTMParentRepository
-from src.repositories.records_otm_child import RecordsOTMChildRepository, RecordsOTMParentChildRepository
+from src.repositories.records_otm_child import RecordsOTMChildRepository
+from src.repositories.records_mtm_parent import RecordsMTMParentRepository
+from src.repositories.records_mtm_child import RecordsMTMChildRepository, RecordsMTMParentChildRepository
 from src.repositories.records_oto_child import RecordsOTOChildRepository
 from src.repositories.records_oto_parent import RecordsOTOParentRepository
 
@@ -13,9 +15,11 @@ class DBManager:
 
         self.records_oto_parent = RecordsOTOParentRepository(self.session)
         self.records_oto_child = RecordsOTOChildRepository(self.session)
-        self.records_otm_parent = RecordsOTMParentRepository(self.session)
         self.records_otm_child = RecordsOTMChildRepository(self.session)
-        self.records_otm_parent_child = RecordsOTMParentChildRepository(self.session)
+        self.records_otm_parent = RecordsOTMParentRepository(self.session)
+        self.records_mtm_parent = RecordsMTMParentRepository(self.session)
+        self.records_mtm_child = RecordsMTMChildRepository(self.session)
+        self.records_mtm_parent_child = RecordsMTMParentChildRepository(self.session)
 
         return self
 

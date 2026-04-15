@@ -9,6 +9,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from src.api.records_oto import router as records_oto_router
 from src.api.records_otm import router as records_otm_router
+from src.api.records_mtm import router as records_mtm_router
 
 
 def get_app() -> FastAPI:
@@ -35,5 +36,6 @@ def get_app() -> FastAPI:
 
     app.include_router(records_oto_router)
     app.include_router(records_otm_router)
+    app.include_router(records_mtm_router)
 
     return app
