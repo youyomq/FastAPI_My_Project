@@ -9,7 +9,7 @@ from src.services.records_oto import RecordOTOService
 router = APIRouter(prefix="/records_oto", tags=["Records OTO Relationship"])
 
 
-@router.get("/parent")
+@router.get("/parent_record")
 async def get_all_parent_oto_records(
         db: DBDep
 ):
@@ -18,7 +18,17 @@ async def get_all_parent_oto_records(
     return {"status": "ok", "data": parent_records}
 
 
-@router.post("/add_parent")
+@router.get("/parent_record/{record_parent_id}")
+async def get_one_parent_oto_record(
+        db: DBDep,
+        record_parent_id: int
+):
+    parent_record = await RecordOTOService(db).get_one_parent_record(record_parent_id)
+
+    return {"status": "ok", "data": parent_record}
+
+
+@router.post("/parent_record")
 async def add_parent_oto_record(
         db: DBDep,
         record_parent_data: RecordOTOParentRequestAdd
@@ -28,7 +38,7 @@ async def add_parent_oto_record(
     return {"status": "ok"}
 
 
-@router.put("/edit_parent/{record_parent_id}")
+@router.put("/parent_record/{record_parent_id}")
 async def edit_parent_oto_record(
         db: DBDep,
         record_parent_id: int,
@@ -40,7 +50,7 @@ async def edit_parent_oto_record(
     return {"status": "ok"}
 
 
-@router.delete("/delete_parent/{record_parent_id}")
+@router.delete("/parent_record/{record_parent_id}")
 async def delete_parent_oto_record(
         db: DBDep,
         record_parent_id: int
@@ -51,7 +61,7 @@ async def delete_parent_oto_record(
     return {"status": "ok"}
 
 
-@router.get("/child")
+@router.get("/child_record/")
 async def get_all_child_oto_records(
         db: DBDep
 ):
@@ -60,7 +70,17 @@ async def get_all_child_oto_records(
     return {"status": "ok", "data": child_records}
 
 
-@router.post("/add_child")
+@router.get("/child_record/{record_child_id}")
+async def get_one_child_oto_record(
+        db: DBDep,
+        record_child_id: int
+):
+    child_record = await RecordOTOService(db).get_one_child_record(record_child_id)
+
+    return {"status": "ok", "data": child_record}
+
+
+@router.post("/child_record")
 async def add_child_oto_record(
         db: DBDep,
         record_child_data: RecordOTOChildRequestAdd
@@ -70,7 +90,7 @@ async def add_child_oto_record(
     return {"status": "ok"}
 
 
-@router.put("/edit_child/{record_child_id}")
+@router.put("/child_record/{record_child_id}")
 async def edit_child_oto_record(
         db: DBDep,
         record_child_id: int,
@@ -82,7 +102,7 @@ async def edit_child_oto_record(
     return {"status": "ok"}
 
 
-@router.delete("/delete_child/{record_child_id}")
+@router.delete("/child_record/{record_child_id}")
 async def delete_child_oto_record(
         db: DBDep,
         record_child_id: int

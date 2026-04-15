@@ -1,3 +1,5 @@
+from sqlalchemy.util import await_only
+
 from src.schemas.records_mtm_parent import RecordMTMParentRequestAdd, RecordMTMParentAdd
 from src.schemas.records_mtm_child import RecordMTMChildRequestAdd, RecordMTMParentChildAdd
 from src.services.base import BaseService
@@ -8,6 +10,9 @@ class RecordMTMService(BaseService):
 
     async def get_all_child_mtm_records(self):
         return await self.db.records_mtm_child.get_all()
+
+    async def get_one_child_record(self, record_child_id: int):
+        return await self.db.records_mtm_child.get_filtered(id=record_child_id)
 
     async def edit_child_mtm_record(self, record_child_data: RecordMTMChildRequestAdd, record_child_id: int):
         await self.db.records_mtm_child.edit_one(data=record_child_data, id=record_child_id)

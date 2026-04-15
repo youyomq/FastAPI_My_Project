@@ -6,10 +6,14 @@ class RecordOTOService(BaseService):
     async def get_all_parent_records(self):
         return await self.db.records_oto_parent.get_all()
 
+    async def get_one_parent_record(self, record_parent_id: int):
+        return await self.db.records_oto_parent.get_filtered(id=record_parent_id)
 
     async def get_all_child_records(self):
         return await self.db.records_oto_child.get_all()
 
+    async def get_one_child_record(self, record_child_id: int):
+        return await self.db.records_oto_child.get_filtered(id=record_child_id)
 
     async def add_one_child_record(self, record_child_data: RecordOTOChildRequestAdd):
         await self.db.records_oto_child.add_one(record_child_data)
