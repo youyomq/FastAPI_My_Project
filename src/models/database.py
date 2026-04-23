@@ -1,14 +1,6 @@
 import sqlalchemy as sa
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-from sqlalchemy.orm import DeclarativeMeta, Mapped, declarative_base, mapped_column
 
-from src.config import settings
-
-engine=create_async_engine(
-    str(settings.postgres_url)
-)
-async_session_maker = async_sessionmaker(bind=engine, expire_on_commit=False)
-
+from sqlalchemy.orm import DeclarativeMeta, declarative_base
 
 metadata = sa.MetaData()
 

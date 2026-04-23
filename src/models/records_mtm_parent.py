@@ -1,4 +1,5 @@
 import typing
+from uuid import UUID, uuid4
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -11,7 +12,10 @@ if typing.TYPE_CHECKING:
 class RecordsMTMParentOrm(Base):
     __tablename__ = "records_mtm_parent"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[UUID] = mapped_column(
+        primary_key=True,
+        default=uuid4
+    )
     parent_value: Mapped[str] = mapped_column(String(length=100))
 
     child_values: Mapped[list["RecordsMTMChildOrm"]] = relationship(

@@ -1,4 +1,3 @@
-from time import sleep
 from typing import Sequence
 
 from pydantic import BaseModel
@@ -16,7 +15,6 @@ class BaseRepository:
 
     async def get_filtered(self, **filter_by):
         query = select(self.model).filter_by(**filter_by)
-
         result = await self.session.execute(query)
 
         return [self.mapper.map_to_domain_entity(item) for item in result.scalars().all()]
@@ -24,6 +22,17 @@ class BaseRepository:
 
     async def get_all(self):
         return await self.get_filtered()
+
+
+    async def get_one_or_none(self, **filter_by):
+        query = select(self.model).filter_by(**filter_by)
+        result = await self.session.execute(query)
+        model = result.scalars().one()
+
+        if model is None:
+            return None
+
+        return self.mapper.map_to_domain_entity(model)
 
 
     async def add_one(self, data: BaseModel):
@@ -42,13 +51,18 @@ class BaseRepository:
     async def edit_one(self, data: BaseModel, exclude_unset: bool = False, **filter_by):
         stmt = (update(self.model)
                 .filter_by(**filter_by)
-                .values(data.model_dump(exclude_unset=exclude_unset)))
+                .values(data.model_dump(exclude_unset=exclude_unset))
+                .returning(self.model)
+                )
+        result = await self.session.execute(stmt)
+        model = result.scalars().one()
 
-        await self.session.execute(stmt)
-
+        return self.mapper.map_to_domain_entity(model)
 
 
     async def delete(self, **filter_by):
-        stmt = delete(self.model).filter_by(**filter_by)
+        stmt = delete(self.model).filter_by(**filter_by).returning(self.model)
+        result = await self.session.execute(stmt)
+        model = result.scalars().one()
 
-        await self.session.execute(stmt)
+        return self.mapper.map_to_domain_entity(model)

@@ -2,12 +2,12 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from src.models.database import async_session_maker
+from src.db import SessionFactory
 from src.utils.db_manager import DBManager
 
 
 def get_db_manager():
-    return DBManager(session_factory=async_session_maker)
+    return DBManager(session_factory=SessionFactory)
 
 
 async def get_db():

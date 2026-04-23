@@ -23,7 +23,6 @@ class RecordOTOChildDataMapper(DataMapper):
     db_model = RecordsOTOChildOrm
     schema = RecordOTOChildAdd
 
-
 class RecordMTMParentDataMapper(DataMapper):
     db_model = RecordsMTMParentOrm
     schema = RecordMTMParent
