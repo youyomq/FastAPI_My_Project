@@ -12,4 +12,5 @@ class CustomersOrm(Base):
         primary_key=True,
         default=uuid4
     )
-    name: Mapped[str] = mapped_column(String())
+
+    name: Mapped[str] = mapped_column(String(length=50)) #, unique=True - ДОБАВИТЬ!

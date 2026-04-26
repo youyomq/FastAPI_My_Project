@@ -8,7 +8,7 @@ from src.core.dependencies import DBDep
 from src.services.drivers_licenses import DriverLicenseService
 
 
-router = APIRouter(prefix="/driver_license", tags=["driver_license OTO Relationship"])
+router = APIRouter(prefix="/driver_license", tags=["Driver License OTO Relationship"])
 
 @router.get("/{driver_id}", response_model=StatusOkWithData)
 async def get_one_driver_license(

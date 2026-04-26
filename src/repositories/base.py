@@ -27,7 +27,7 @@ class BaseRepository:
     async def get_one_or_none(self, **filter_by):
         query = select(self.model).filter_by(**filter_by)
         result = await self.session.execute(query)
-        model = result.scalars().one()
+        model = result.scalars().one_or_none()
 
         if model is None:
             return None
@@ -66,3 +66,8 @@ class BaseRepository:
         model = result.scalars().one()
 
         return self.mapper.map_to_domain_entity(model)
+
+    async def delete_all(self, **filter_by):
+        stmt = delete(self.model).filter_by(**filter_by)
+        await self.session.execute(stmt)
+

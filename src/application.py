@@ -3,7 +3,7 @@ from fastapi.responses import UJSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
 from src.api.drivers_licenses import router as drivers_licenses_router
-from src.api.records_otm import router as records_otm_router
+from src.api.customers_orders import router as records_otm_router
 from src.api.records_mtm import router as records_mtm_router
 
 

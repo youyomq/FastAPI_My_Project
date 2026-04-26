@@ -1,6 +1,6 @@
-from src.schemas.records_otm_parent import RecordOTMParent
-from src.models.orders import RecordsOTMParentOrm
-from src.schemas.records_otm_child import RecordOTMChild
+from src.schemas.orders import Order
+from src.models.orders import OrdersOrm
+from src.schemas.customers import Customer
 from src.models.customers import CustomersOrm
 from src.models.records_mtm_child import RecordsMTMChildOrm, RecordsMTMParentChildOrm
 from src.schemas.records_mtm_child import RecordMTMChildAdd, RecordMTMParentChildAdd, RecordMTMParentChild, \
@@ -37,11 +37,11 @@ class RecordsMTMParentChildDataMapper(DataMapper):
     schema = RecordMTMParentWithRels
 
 
-class RecordOTMChildDataMapper(DataMapper):
+class CustomerDataMapper(DataMapper):
     db_model = CustomersOrm
-    schema = RecordOTMChild
+    schema = Customer
 
-class RecordOTMParentDataMapper(DataMapper):
-    db_model = RecordsOTMParentOrm
-    schema = RecordOTMParent
+class OrderDataMapper(DataMapper):
+    db_model = OrdersOrm
+    schema = Order
 

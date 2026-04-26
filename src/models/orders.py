@@ -5,7 +5,7 @@ from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 
-class RecordsOTMParentOrm(Base):
+class OrdersOrm(Base):
     __tablename__ = "orders"
 
     id: Mapped[UUID] = mapped_column(
