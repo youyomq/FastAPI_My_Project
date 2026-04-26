@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel
 
 class RecordOTMChildRequestAdd(BaseModel):
@@ -7,6 +9,6 @@ class RecordOTMChildAdd(BaseModel):
     child_value: str
 
 class RecordOTMChild(RecordOTMChildAdd):
-    id: int
+    id: UUID
 
 

@@ -1,4 +1,4 @@
-from src.models.records_otm_parent import RecordsOTMParentOrm
+from src.models.orders import RecordsOTMParentOrm
 from src.repositories.mappers.mappers import RecordOTMParentDataMapper
 from src.repositories.base import BaseRepository
 

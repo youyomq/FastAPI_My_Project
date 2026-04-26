@@ -1,27 +1,27 @@
 from src.schemas.records_otm_parent import RecordOTMParent
-from src.models.records_otm_parent import RecordsOTMParentOrm
+from src.models.orders import RecordsOTMParentOrm
 from src.schemas.records_otm_child import RecordOTMChild
-from src.models.records_otm_child import RecordsOTMChildOrm
+from src.models.customers import CustomersOrm
 from src.models.records_mtm_child import RecordsMTMChildOrm, RecordsMTMParentChildOrm
 from src.schemas.records_mtm_child import RecordMTMChildAdd, RecordMTMParentChildAdd, RecordMTMParentChild, \
     RecordMTMChild
 from src.models.records_mtm_parent import RecordsMTMParentOrm
-from src.models.records_oto_parent import RecordsOTOParentOrm
-from src.models.records_oto_child import RecordsOTOChildOrm
+from src.models.drivers import DriversOrm
+from src.models.licenses import LicensesOrm
 from src.schemas.records_mtm_parent import RecordMTMParent, RecordMTMParentWithRels
-from src.schemas.records_oto_child import RecordOTOChildAdd
+from src.schemas.licenses import LicenseAdd
 from src.repositories.mappers.base import DataMapper
-from src.schemas.records_oto_parent import RecordOTOParentAdd
+from src.schemas.drivers import DriverAdd
 
 
-class RecordOTOParentDataMapper(DataMapper):
-    db_model = RecordsOTOParentOrm
-    schema = RecordOTOParentAdd
+class DriverDataMapper(DataMapper):
+    db_model = DriversOrm
+    schema = DriverAdd
 
 
-class RecordOTOChildDataMapper(DataMapper):
-    db_model = RecordsOTOChildOrm
-    schema = RecordOTOChildAdd
+class LicenseDataMapper(DataMapper):
+    db_model = LicensesOrm
+    schema = LicenseAdd
 
 class RecordMTMParentDataMapper(DataMapper):
     db_model = RecordsMTMParentOrm
@@ -38,7 +38,7 @@ class RecordsMTMParentChildDataMapper(DataMapper):
 
 
 class RecordOTMChildDataMapper(DataMapper):
-    db_model = RecordsOTMChildOrm
+    db_model = CustomersOrm
     schema = RecordOTMChild
 
 class RecordOTMParentDataMapper(DataMapper):

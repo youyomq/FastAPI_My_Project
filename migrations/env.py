@@ -8,10 +8,10 @@ from logging.config import fileConfig
 
 from src.config import settings
 from src.models.database import Base
-from src.models.records_oto_child import RecordsOTOChildOrm
-from src.models.records_oto_parent import RecordsOTOParentOrm
-from src.models.records_otm_child import RecordsOTMChildOrm
-from src.models.records_otm_parent import RecordsOTMParentOrm
+from src.models.licenses import LicensesOrm
+from src.models.drivers import DriversOrm
+from src.models.customers import CustomersOrm
+from src.models.orders import RecordsOTMParentOrm
 from src.models.records_mtm_child import RecordsMTMChildOrm
 from src.models.records_mtm_parent import RecordsMTMParentOrm
 

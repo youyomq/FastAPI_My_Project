@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from src.schemas.records_mtm_parent import RecordMTMParentRequestAdd
 from src.services.records_mtm import RecordMTMService
 from src.schemas.records_mtm_child import RecordMTMChildRequestAdd
-from src.api.dependencies import DBDep
+from src.core.dependencies import DBDep
 
 router = APIRouter(prefix="/records_mtm", tags=["Records MTM Relationship"])
 

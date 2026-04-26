@@ -1,13 +1,8 @@
-import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).parent.parent))
-
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
-from src.api.records_oto import router as records_oto_router
+from src.api.drivers_licenses import router as drivers_licenses_router
 from src.api.records_otm import router as records_otm_router
 from src.api.records_mtm import router as records_mtm_router
 
@@ -34,7 +29,7 @@ def get_app() -> FastAPI:
         allow_headers=['*'],
     )
 
-    app.include_router(records_oto_router)
+    app.include_router(drivers_licenses_router)
     app.include_router(records_otm_router)
     app.include_router(records_mtm_router)
 
