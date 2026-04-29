@@ -63,11 +63,14 @@ class StudentTeacherService(BaseService):
     async def edit_student_teacher(self, student_teacher_data: StudentTeacherRequestAdd, teacher_id: UUID, student_id: UUID):
         await self.db.students_teachers.delete_by_fks(students_ids=[student_id], teachers_ids=[teacher_id])
 
-        student_to_add = StudentAdd(**student_teacher_data.student.model_dump(exclude_unset=True))
-        await self.db.students.edit_one(data=student_to_add, id=student_id)
+        if student_id:
+            student_to_add = StudentAdd(**student_teacher_data.student.model_dump(exclude_unset=True))
+            await self.db.students.edit_one(data=student_to_add, id=student_id)
 
-        teacher_to_add = TeacherAdd(**student_teacher_data.teacher.model_dump(exclude_unset=True))
-        await self.db.teachers.edit_one(data=teacher_to_add, id=teacher_id)
+        if teacher_id:
+            teacher_to_add = TeacherAdd(**student_teacher_data.teacher.model_dump(exclude_unset=True))
+            await self.db.teachers.edit_one(data=teacher_to_add, id=teacher_id)
+
 
         students_list = student_teacher_data.teacher.students
         teachers_list = student_teacher_data.student.teachers
@@ -83,6 +86,8 @@ class StudentTeacherService(BaseService):
                 await self.db.students_teachers.add(student_teacher)
 
     async def delete_students_teachers(self, students_ids: list[UUID], teachers_ids: list[UUID]):
+        print(students_ids, teachers_ids)
         await self.db.students_teachers.delete_by_fks(students_ids=students_ids, teachers_ids=teachers_ids)
+
         await self.db.students.delete_all_in_list(students_ids)
         await self.db.teachers.delete_all_in_list(teachers_ids)

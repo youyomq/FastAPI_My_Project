@@ -1,22 +1,15 @@
 from uuid import UUID
 
 from pydantic import BaseModel
-from sqlalchemy import select, delete, update, insert
+from sqlalchemy import select, insert
 from sqlalchemy.orm import selectinload
 
-
-from src.models.students import StudentsTeachersOrm
-from src.repositories.students import StudentsTeachersRepository
-from src.schemas.students import StudentTeacherAdd
-from src.schemas.teachers import TeacherRequestAdd, TeacherAdd
 from src.models.teachers import TeachersOrm
 from src.repositories.base import BaseRepository
-from src.repositories.mappers.mappers import TeacherDataMapper, StudentTeacherJoinDataMapper
 
 
 class TeachersRepository(BaseRepository):
     model = TeachersOrm
-    mapper = TeacherDataMapper
 
     async def get_teacher_with_students(self, teachers_ids: list[UUID]):
         query = (
@@ -40,4 +33,4 @@ class TeachersRepository(BaseRepository):
 
         model = result.mappings().one()
 
-        return self.mapper.map_to_domain_entity(model)
+        return model

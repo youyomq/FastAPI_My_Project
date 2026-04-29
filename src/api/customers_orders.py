@@ -2,10 +2,10 @@ from uuid import UUID
 
 from fastapi import APIRouter
 
-from schemas.answers import StatusOkWithData, StatusOk
-from schemas.customers_orders import CustomerOrderRequestAdd, CustomerOrderGet
+from src.schemas.answers import StatusOkWithData, StatusOk
+from src.schemas.customers_orders import CustomerOrderRequestAdd, CustomerOrderGet
 from src.services.customers_orders import CustomerOrderService
-from src.core.dependencies import DBDep
+from src.dependencies import DBDep
 
 router = APIRouter(prefix="/customers_orders", tags=["Customers Orders OTM Relationship"])
 

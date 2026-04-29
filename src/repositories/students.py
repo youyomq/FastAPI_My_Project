@@ -6,14 +6,13 @@ from sqlalchemy.orm import selectinload
 
 from src.models.students import StudentsOrm, StudentsTeachersOrm
 from src.repositories.base import BaseRepository
-from src.repositories.mappers.mappers import StudentDataMapper, StudentTeacherJoinDataMapper
+from src.repositories.mappers.mappers import StudentTeacherJoinDataMapper
 
 
 
 
 class StudentsRepository(BaseRepository):
     model = StudentsOrm
-    mapper = StudentDataMapper
 
     async def get_student_with_teachers(self, student_ids: list[UUID]):
         query = (
@@ -43,12 +42,16 @@ class StudentsTeachersRepository(BaseRepository):
         stmt = insert(self.model).values(**data.model_dump())
         await self.session.execute(stmt)
 
-    async def  delete_by_fks(self, students_ids: list[UUID], teachers_ids: list[UUID]):
-        if students_ids:
+    async def delete_by_fks(self, students_ids: list[UUID], teachers_ids: list[UUID]):
+        if students_ids == [None] or students_ids == []:
+            pass
+        else:
             stmt_students = delete(self.model).filter(self.model.student_id.in_(students_ids))
             await self.session.execute(stmt_students)
 
-        if teachers_ids:
+        if teachers_ids == [None] or teachers_ids == []:
+            pass
+        else:
             stmt_teachers = delete(self.model).filter(self.model.teacher_id.in_(teachers_ids))
             await self.session.execute(stmt_teachers)
 

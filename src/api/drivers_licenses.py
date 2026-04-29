@@ -4,7 +4,7 @@ from fastapi import APIRouter
 
 from src.schemas.answers import StatusOk, StatusOkWithData
 from src.schemas.drivers_licenses import DriverLicenseRequestAdd
-from src.core.dependencies import DBDep
+from src.dependencies import DBDep
 from src.services.drivers_licenses import DriverLicenseService
 
 
@@ -25,7 +25,7 @@ async def add_driver_license(
         db: DBDep,
         driver_license_data: DriverLicenseRequestAdd
 ):
-    await DriverLicenseService(db).add_one_driver_license(driver_license_data=driver_license_data)
+    await DriverLicenseService(db).add_driver_license(driver_license_data=driver_license_data)
     await db.commit()
 
     return {"status": "ok"}

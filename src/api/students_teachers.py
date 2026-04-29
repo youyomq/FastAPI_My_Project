@@ -5,7 +5,7 @@ from fastapi import APIRouter, Query
 from src.schemas.answers import StatusOk, StatusOkWithData
 from src.services.students_teachers import StudentTeacherService
 from src.schemas.students_teachers import StudentTeacherRequestAdd
-from src.core.dependencies import DBDep
+from src.dependencies import DBDep
 
 router = APIRouter(prefix="/students_teachers", tags=["Students Teachers MTM Relationship"])
 
@@ -47,8 +47,8 @@ async def edit_student_teachers(
 @router.delete("/", response_model=StatusOk)
 async def delete_student_teachers(
         db: DBDep,
-        students_ids: list[UUID] = Query(default=None),
-        teachers_ids: list[UUID] = Query(default=None)
+        students_ids: list[UUID] = Query(default=[]),
+        teachers_ids: list[UUID] = Query(default=[])
 ):
     await StudentTeacherService(db).delete_students_teachers(students_ids=students_ids, teachers_ids=teachers_ids)
     await db.commit()

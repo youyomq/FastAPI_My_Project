@@ -4,12 +4,9 @@ from uuid import UUID
 from pydantic import BaseModel
 from sqlalchemy import select, insert, update, delete
 
-from src.repositories.mappers.base import DataMapper
-
 
 class BaseRepository:
     model = None
-    mapper: DataMapper = None
 
     def __init__(self, session):
         self.session = session
@@ -18,7 +15,7 @@ class BaseRepository:
         query = select(self.model).filter_by(**filter_by)
         result = await self.session.execute(query)
 
-        return [self.mapper.map_to_domain_entity(item) for item in result.scalars().all()]
+        return [item for item in result.scalars().all()]
 
 
     async def get_all(self):
@@ -33,8 +30,7 @@ class BaseRepository:
         if model is None:
             return None
 
-        return self.mapper.map_to_domain_entity(model)
-
+        return model
 
     async def add(self, data: BaseModel):
         stmt = insert(self.model).values(**data.model_dump()).returning(self.model)
@@ -42,7 +38,7 @@ class BaseRepository:
         result = await self.session.execute(stmt)
         model = result.scalars().one()
 
-        return self.mapper.map_to_domain_entity(model)
+        return model
 
     async def add_all(self, data: Sequence[BaseModel]):
         add_stmt = insert(self.model).values([i.model_dump() for i in data])
@@ -58,7 +54,7 @@ class BaseRepository:
         result = await self.session.execute(stmt)
         model = result.scalars().one()
 
-        return self.mapper.map_to_domain_entity(model)
+        return model
 
 
     async def delete(self, **filter_by):
@@ -66,7 +62,7 @@ class BaseRepository:
         result = await self.session.execute(stmt)
         model = result.scalars().one()
 
-        return self.mapper.map_to_domain_entity(model)
+        return model
 
     async def delete_all(self, **filter_by):
         stmt = delete(self.model).filter_by(**filter_by)
