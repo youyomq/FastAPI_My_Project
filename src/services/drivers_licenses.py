@@ -21,7 +21,7 @@ class DriverLicenseService(BaseService):
     async def add_one_driver_license(self, driver_license_data: DriverLicenseRequestAdd):
         date_end = get_end_date(driver_license_data.license.date_issue)
         license_data =  LicenseRequestWithDateEndAdd(**driver_license_data.license.model_dump(), date_end=date_end)
-        added_license = await self.db.licenses.add_one(data=license_data)
+        added_license = await self.db.licenses.add(data=license_data)
 
         driver_data = DriverAdd(
             name=driver_license_data.driver.name,

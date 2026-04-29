@@ -25,7 +25,7 @@ class CustomerOrderService(BaseService):
             await self.db.orders.add_one(order_to_add)
         else:
             customer_to_add = CustomerAdd(name=customer_order_data.customer.name)
-            added_customer = await self.db.customers.add_one(customer_to_add)
+            added_customer = await self.db.customers.add(customer_to_add)
             order_to_add = OrderAdd(customer_id=added_customer.id, order_article=customer_order_data.order.order_article)
             await self.db.orders.add_one(order_to_add)
 

@@ -35,7 +35,7 @@ class BaseRepository:
         return self.mapper.map_to_domain_entity(model)
 
 
-    async def add_one(self, data: BaseModel):
+    async def add(self, data: BaseModel):
         stmt = insert(self.model).values(**data.model_dump()).returning(self.model)
 
         result = await self.session.execute(stmt)
@@ -43,7 +43,7 @@ class BaseRepository:
 
         return self.mapper.map_to_domain_entity(model)
 
-    async def add_bulk(self, data: Sequence[BaseModel]):
+    async def add_all(self, data: Sequence[BaseModel]):
         add_stmt = insert(self.model).values([i.model_dump() for i in data])
         await self.session.execute(add_stmt)
 

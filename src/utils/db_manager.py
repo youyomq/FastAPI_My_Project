@@ -1,7 +1,7 @@
 from src.repositories.orders import OrdersRepository
 from src.repositories.customers import CustomersRepository
-from src.repositories.records_mtm_parent import RecordsMTMParentRepository
-from src.repositories.records_mtm_child import RecordsMTMChildRepository, RecordsMTMParentChildRepository
+from src.repositories.teachers import TeachersRepository
+from src.repositories.students import StudentsRepository, StudentsTeachersRepository
 from src.repositories.licenses import LicensesRepository
 from src.repositories.drivers import DriversRepository
 
@@ -17,9 +17,9 @@ class DBManager:
         self.licenses = LicensesRepository(self.session)
         self.customers = CustomersRepository(self.session)
         self.orders = OrdersRepository(self.session)
-        self.records_mtm_parent = RecordsMTMParentRepository(self.session)
-        self.records_mtm_child = RecordsMTMChildRepository(self.session)
-        self.records_mtm_parent_child = RecordsMTMParentChildRepository(self.session)
+        self.teachers = TeachersRepository(self.session)
+        self.students = StudentsRepository(self.session)
+        self.students_teachers = StudentsTeachersRepository(self.session)
 
         return self
 

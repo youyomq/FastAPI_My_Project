@@ -12,8 +12,8 @@ from src.models.licenses import LicensesOrm
 from src.models.drivers import DriversOrm
 from src.models.customers import CustomersOrm
 from src.models.orders import OrdersOrm
-from src.models.records_mtm_child import RecordsMTMChildOrm
-from src.models.records_mtm_parent import RecordsMTMParentOrm
+from src.models.students import StudentsOrm
+from src.models.teachers import TeachersOrm
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
