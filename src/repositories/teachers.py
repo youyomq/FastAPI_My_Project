@@ -30,7 +30,6 @@ class TeachersRepository(BaseRepository):
 
         return [teacher for teacher in model]
 
-
     async def add(self, data: BaseModel):
         stmt = insert(self.model).values(**data.model_dump()).returning(TeachersOrm.id,
                                                                         TeachersOrm.name,
@@ -42,17 +41,3 @@ class TeachersRepository(BaseRepository):
         model = result.mappings().one()
 
         return self.mapper.map_to_domain_entity(model)
-
-    async def edit_bulk(self, parent_record_data: TeacherRequestAdd, record_parent_id: int):
-        delete_parent_child_stmt = delete(StudentsTeachersOrm).filter_by(parent_id=record_parent_id)
-        await self.session.execute(delete_parent_child_stmt)
-
-        update_parent_stmt = update(self.model).filter_by(id=record_parent_id).values(parent_value=parent_record_data.parent_value).returning(self.model)
-        update_parent_record = await self.session.execute(update_parent_stmt)
-        updated_parent_record = update_parent_record.scalars().one()
-
-
-        child_ids_to_add = [StudentTeacherAdd(parent_id=updated_parent_record.id, child_id=child_id) for child_id in parent_record_data.child_ids]
-
-        if child_ids_to_add:
-            await StudentsTeachersRepository(self.session).add_all(data=child_ids_to_add)

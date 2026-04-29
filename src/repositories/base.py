@@ -1,4 +1,5 @@
 from typing import Sequence
+from uuid import UUID
 
 from pydantic import BaseModel
 from sqlalchemy import select, insert, update, delete
@@ -69,5 +70,9 @@ class BaseRepository:
 
     async def delete_all(self, **filter_by):
         stmt = delete(self.model).filter_by(**filter_by)
+        await self.session.execute(stmt)
+
+    async def delete_all_in_list(self, items_list: list[UUID]):
+        stmt = delete(self.model).filter(self.model.id.in_(items_list))
         await self.session.execute(stmt)
 

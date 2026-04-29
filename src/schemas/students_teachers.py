@@ -1,5 +1,5 @@
 from uuid import UUID
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from src.schemas.students import Student, StudentRequestAdd, StudentAdd
 from src.schemas.teachers import TeacherRequestAdd, TeacherAdd, Teacher
@@ -48,6 +48,6 @@ class TeacherWithStudents(BaseModel):
     students: list[Student]
 
 class StudentsWithTeachersLists(BaseModel):
-    students: list[StudentWithTeachers] | None
-    teachers: list[TeacherWithStudents] | None
+    students: list[StudentWithTeachers] | None = None
+    teachers: list[TeacherWithStudents] | None = None
 
