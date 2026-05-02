@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from logging.config import fileConfig
 
 from src.config import settings
-from src.models.database import Base
+from src.models.base import Base
 from src.models.licenses import LicensesOrm
 from src.models.drivers import DriversOrm
 from src.models.customers import CustomersOrm

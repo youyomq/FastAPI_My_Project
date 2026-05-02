@@ -4,7 +4,7 @@ from uuid import UUID, uuid4
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.models.database import Base
+from src.models.base import Base
 
 if typing.TYPE_CHECKING:
     from src.models.students import StudentsOrm
@@ -22,5 +22,5 @@ class TeachersOrm(Base):
     
     students: Mapped[list["StudentsOrm"]] = relationship(
         back_populates="teachers",
-        secondary="students_teachers"
+        secondary="students_teachers",
     )

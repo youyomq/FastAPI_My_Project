@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
+from src.healthcheck.router import router
 from src.api.drivers_licenses import router as drivers_licenses_router
 from src.api.customers_orders import router as records_otm_router
 from src.api.students_teachers import router as records_mtm_router
@@ -29,6 +30,7 @@ def get_app() -> FastAPI:
         allow_headers=['*'],
     )
 
+    app.include_router(router)
     app.include_router(drivers_licenses_router)
     app.include_router(records_otm_router)
     app.include_router(records_mtm_router)

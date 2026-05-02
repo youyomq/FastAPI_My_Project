@@ -1,5 +1,4 @@
-from pydantic import ConfigDict
-
+from src.schemas.customers_orders import CustomerOrdersGet
 from src.schemas.students_teachers import StudentTeacherJoin, StudentWithTeachers, TeacherWithStudents
 from src.schemas.orders import Order
 from src.models.orders import OrdersOrm
@@ -51,4 +50,8 @@ class CustomerDataMapper(DataMapper):
 class OrderDataMapper(DataMapper):
     db_model = OrdersOrm
     schema = Order
+
+class CustomerOrdersDataMapper(DataMapper):
+    db_model = CustomersOrm
+    schema = CustomerOrdersGet
 

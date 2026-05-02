@@ -3,24 +3,24 @@ from uuid import UUID
 from fastapi import APIRouter
 
 from src.schemas.answers import StatusOk, StatusOkWithData
-from src.schemas.drivers_licenses import DriverLicenseRequestAdd
+from src.schemas.drivers_licenses import DriverLicenseRequestAdd, DriverLicense
 from src.dependencies import DBDep
 from src.services.drivers_licenses import DriverLicenseService
 
 
 router = APIRouter(prefix="/driver_license", tags=["Driver License OTO Relationship"])
 
-@router.get("/{driver_id}", response_model=StatusOkWithData)
+@router.get("/{driver_id}", response_model=StatusOkWithData[DriverLicense])
 async def get_one_driver_license(
         db: DBDep,
         driver_id: UUID
 ):
-    data = await DriverLicenseService(db).get_one_driver_license(driver_id)
+    driver_license = await DriverLicenseService(db).get_one_driver_license(driver_id)
 
-    return {"status": "ok", "data": data}
+    return driver_license
 
 
-@router.post("/", response_model=StatusOk)
+@router.post("/", response_model=StatusOk, status_code=201)
 async def add_driver_license(
         db: DBDep,
         driver_license_data: DriverLicenseRequestAdd
@@ -44,7 +44,7 @@ async def edit_driver_license(
 
 
 
-@router.delete("/{driver_id}", response_model=StatusOk)
+@router.delete("/{driver_id}", status_code=204)
 async def delete_driver_license(
         db: DBDep,
         driver_id: UUID
@@ -52,7 +52,7 @@ async def delete_driver_license(
     await DriverLicenseService(db).delete_driver_license(driver_id)
     await db.commit()
 
-    return {"status": "ok"}
+
 
 
 

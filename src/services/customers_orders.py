@@ -1,8 +1,8 @@
 from uuid import UUID
 
-from repositories.mappers.mappers import CustomerDataMapper, OrderDataMapper
-from schemas.customers_orders import CustomerOrderRequestAdd, CustomerOrderGet
-from schemas.customers import CustomerAdd
+from src.repositories.mappers.mappers import CustomerDataMapper, OrderDataMapper, CustomerOrdersDataMapper
+from src.schemas.customers_orders import CustomerOrderRequestAdd
+from src.schemas.customers import CustomerAdd
 from src.schemas.orders import OrderAdd
 from src.services.base import BaseService
 
@@ -10,15 +10,9 @@ from src.services.base import BaseService
 
 class CustomerOrderService(BaseService):
     async def get_customer_orders(self, customer_id: UUID):
-        customer_model = await self.db.customers.get_one_or_none(id=customer_id)
-        customer = CustomerDataMapper.map_to_domain_entity(customer_model)
-
-        orders_model = await self.db.orders.get_filtered(customer_id=customer_id)
-        orders = [OrderDataMapper.map_to_domain_entity(order) for order in orders_model]
-
-        customer_order = CustomerOrderGet(customer=customer, orders=orders)
-
-        return customer_order
+        customer_with_orders_model = await self.db.customers.get_customer_with_orders(customer_id=customer_id)
+        customer_with_orders = CustomerOrdersDataMapper.map_to_domain_entity(customer_with_orders_model)
+        return customer_with_orders
 
     async def add_customer_order(self, customer_order_data: CustomerOrderRequestAdd):
         customer_model = await self.db.customers.get_one_or_none(name=customer_order_data.customer.name)
@@ -38,18 +32,11 @@ class CustomerOrderService(BaseService):
         order_model = await self.db.orders.get_one_or_none(id=order_id)
         order = OrderDataMapper.map_to_domain_entity(order_model)
 
-        customer_model = await self.db.customers.get_one_or_none(id=order.customer_id)
-        customer = CustomerDataMapper.map_to_domain_entity(customer_model)
-
-        if customer.name == customer_order_data.customer.name:
-            await self.db.orders.edit_one(data=customer_order_data.order, id=order_id)
-        else:
-            await self.db.customers.edit_one(data=customer_order_data.customer, id=order.customer_id)
-            await self.db.orders.edit_one(data=customer_order_data.order, id=order_id)
+        await self.db.customers.edit_one(data=customer_order_data.customer, id=order.customer_id)
+        await self.db.orders.edit_one(data=customer_order_data.order, id=order_id)
 
 
     async def delete_customer_order(self, customer_id: UUID):
-        await self.db.orders.delete_all(customer_id=customer_id)
         await self.db.customers.delete(id=customer_id)
 
 

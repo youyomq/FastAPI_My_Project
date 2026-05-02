@@ -6,7 +6,6 @@ metadata = sa.MetaData()
 
 
 class BaseServiceModel:
-    """Базовый класс для таблиц сервиса."""
 
     @classmethod
     def on_conflict_constraint(cls) -> tuple | None:

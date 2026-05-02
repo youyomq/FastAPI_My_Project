@@ -20,7 +20,7 @@ async def get_students_teachers(
     return {"status": "ok", "data": students_teachers}
 
 
-@router.post("/", response_model=StatusOk)
+@router.post("/", response_model=StatusOk, status_code=201)
 async def add_student_teacher(
         db: DBDep,
         student_teacher_data: StudentTeacherRequestAdd
@@ -35,8 +35,8 @@ async def add_student_teacher(
 async def edit_student_teachers(
         db: DBDep,
         student_teacher_data: StudentTeacherRequestAdd,
-        teacher_id: UUID = Query(default=None),
-        student_id: UUID = Query(default=None)
+        teacher_id: UUID = Query(),
+        student_id: UUID = Query()
 ):
     await StudentTeacherService(db).edit_student_teacher(student_teacher_data=student_teacher_data, teacher_id=teacher_id, student_id=student_id)
     await db.commit()
@@ -44,7 +44,7 @@ async def edit_student_teachers(
     return {"status": "ok"}
 
 
-@router.delete("/", response_model=StatusOk)
+@router.delete("/", status_code=204)
 async def delete_student_teachers(
         db: DBDep,
         students_ids: list[UUID] = Query(default=[]),
@@ -53,7 +53,6 @@ async def delete_student_teachers(
     await StudentTeacherService(db).delete_students_teachers(students_ids=students_ids, teachers_ids=teachers_ids)
     await db.commit()
 
-    return {"status": "ok"}
 
 
 

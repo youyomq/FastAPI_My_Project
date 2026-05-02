@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from src.models.database import Base
+from src.models.base import Base
 
 class DataMapper:
     db_model: type[Base] = None

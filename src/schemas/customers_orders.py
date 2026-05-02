@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel, ConfigDict
 
 from src.schemas.customers import CustomerRequestAdd, CustomerAdd, Customer
@@ -12,8 +14,9 @@ class CustomerOrderAdd(BaseModel):
     customer: CustomerAdd
     order: OrderAdd
 
-class CustomerOrderGet(BaseModel):
-    customer: Customer
+class CustomerOrdersGet(BaseModel):
+    id: UUID
+    name: str
     orders: list[Order]
 
 class CustomerOrder(CustomerOrderAdd):

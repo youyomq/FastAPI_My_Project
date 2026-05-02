@@ -3,23 +3,23 @@ from uuid import UUID
 from fastapi import APIRouter
 
 from src.schemas.answers import StatusOkWithData, StatusOk
-from src.schemas.customers_orders import CustomerOrderRequestAdd, CustomerOrderGet
+from src.schemas.customers_orders import CustomerOrderRequestAdd, CustomerOrdersGet
 from src.services.customers_orders import CustomerOrderService
 from src.dependencies import DBDep
 
 router = APIRouter(prefix="/customers_orders", tags=["Customers Orders OTM Relationship"])
 
-@router.get("/{customer_id}", response_model=StatusOkWithData[CustomerOrderGet])
+@router.get("/{customer_id}", response_model=StatusOkWithData[CustomerOrdersGet])
 async def get_customer_orders(
         db: DBDep,
         customer_id: UUID
 ):
     customer_orders = await CustomerOrderService(db).get_customer_orders(customer_id)
-    print(customer_orders)
-    return {"status": "ok", "data": {**customer_orders.model_dump()}}
+
+    return {"status": "ok", "data": customer_orders}
 
 
-@router.post("/", response_model=StatusOk)
+@router.post("/", response_model=StatusOk, status_code=201)
 async def add_customer_order(
         db: DBDep,
         customer_order_data: CustomerOrderRequestAdd
@@ -42,15 +42,13 @@ async def edit_customer_order(
     return {"status": "ok"}
 
 
-@router.delete("/{customer_id}",  response_model=StatusOk)
+@router.delete("/{customer_id}", status_code=204)
 async def delete_customer_order(
         db: DBDep,
         customer_id: UUID,
 ):
     await CustomerOrderService(db).delete_customer_order(customer_id)
     await db.commit()
-
-    return {"status": "ok"}
 
 
 

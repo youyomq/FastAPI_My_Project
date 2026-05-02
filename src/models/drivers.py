@@ -2,7 +2,7 @@ from uuid import UUID, uuid4
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.models.database import Base
+from src.models.base import Base
 
 
 class DriversOrm(Base):

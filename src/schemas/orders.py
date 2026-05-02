@@ -12,5 +12,7 @@ class OrderAdd(BaseModel):
     customer_id: UUID
     order_article: str
 
-class Order(OrderAdd):
+class Order(BaseModel):
     id: UUID
+    customer_id: UUID
+    order_article: str

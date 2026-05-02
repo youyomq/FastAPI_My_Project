@@ -19,6 +19,7 @@ class DriverLicenseService(BaseService):
         license_ = LicenseDataMapper.map_to_domain_entity(license_model)
 
         res_record = DriverLicense(driver=driver.model_dump(), license=license_.model_dump())
+
         return res_record
 
 

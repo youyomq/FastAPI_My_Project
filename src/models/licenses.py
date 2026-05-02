@@ -5,7 +5,7 @@ from datetime import date
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.models.database import Base
+from src.models.base import Base
 
 class LicensesOrm(Base):
     __tablename__ = "licenses"
