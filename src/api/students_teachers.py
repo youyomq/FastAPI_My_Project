@@ -4,20 +4,20 @@ from fastapi import APIRouter, Query
 
 from src.schemas.answers import StatusOk, StatusOkWithData
 from src.services.students_teachers import StudentTeacherService
-from src.schemas.students_teachers import StudentTeacherRequestAdd
+from src.schemas.students_teachers import StudentTeacherRequestAdd, StudentsWithTeachersLists
 from src.dependencies import DBDep
 
 router = APIRouter(prefix="/students_teachers", tags=["Students Teachers MTM Relationship"])
 
-@router.get("/", response_model=StatusOkWithData)
+@router.get("/", response_model=StatusOkWithData[StudentsWithTeachersLists])
 async def get_students_teachers(
         db: DBDep,
-        students_ids: list[UUID] = Query(default=None),
-        teachers_ids: list[UUID] = Query(default=None)
+        students_ids: list[UUID] = Query(default=[]),
+        teachers_ids: list[UUID] = Query(default=[])
 ):
     students_teachers = await StudentTeacherService(db).get_students_teachers(students_ids=students_ids, teachers_ids=teachers_ids)
 
-    return {"status": "ok", "data": students_teachers}
+    return StatusOkWithData(data=students_teachers)
 
 
 @router.post("/", response_model=StatusOk, status_code=201)
@@ -28,7 +28,7 @@ async def add_student_teacher(
     await StudentTeacherService(db).add_student_teacher(student_teacher_data)
     await db.commit()
 
-    return {"status": "ok"}
+    return StatusOk()
 
 
 @router.put("/", response_model=StatusOk)
@@ -41,7 +41,7 @@ async def edit_student_teachers(
     await StudentTeacherService(db).edit_student_teacher(student_teacher_data=student_teacher_data, teacher_id=teacher_id, student_id=student_id)
     await db.commit()
 
-    return {"status": "ok"}
+    return StatusOk()
 
 
 @router.delete("/", status_code=204)

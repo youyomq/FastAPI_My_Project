@@ -2,8 +2,9 @@ from uuid import UUID
 
 from fastapi import APIRouter
 
+from schemas.drivers_licenses import DriverLicense
 from src.schemas.answers import StatusOk, StatusOkWithData
-from src.schemas.drivers_licenses import DriverLicenseRequestAdd, DriverLicense
+from src.schemas.drivers_licenses import DriverLicenseRequestAdd
 from src.dependencies import DBDep
 from src.services.drivers_licenses import DriverLicenseService
 
@@ -17,7 +18,7 @@ async def get_one_driver_license(
 ):
     driver_license = await DriverLicenseService(db).get_one_driver_license(driver_id)
 
-    return driver_license
+    return StatusOkWithData(data=driver_license)
 
 
 @router.post("/", response_model=StatusOk, status_code=201)
@@ -28,7 +29,7 @@ async def add_driver_license(
     await DriverLicenseService(db).add_driver_license(driver_license_data=driver_license_data)
     await db.commit()
 
-    return {"status": "ok"}
+    return StatusOk()
 
 
 @router.put("/{driver_id}", response_model=StatusOk)
@@ -40,7 +41,7 @@ async def edit_driver_license(
     await DriverLicenseService(db).edit_driver_license(driver_id=driver_id, driver_license_data=driver_license_data)
     await db.commit()
 
-    return {"status": "ok"}
+    return StatusOk()
 
 
 

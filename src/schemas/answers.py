@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import TypeVar, Generic
 
+from schemas.drivers_licenses import DriverLicense
+
 T = TypeVar("T", bound=BaseModel)
 
 class StatusOk(BaseModel):

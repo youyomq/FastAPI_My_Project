@@ -16,7 +16,7 @@ async def get_customer_orders(
 ):
     customer_orders = await CustomerOrderService(db).get_customer_orders(customer_id)
 
-    return {"status": "ok", "data": customer_orders}
+    return StatusOkWithData(data=customer_orders)
 
 
 @router.post("/", response_model=StatusOk, status_code=201)
@@ -27,7 +27,7 @@ async def add_customer_order(
     await CustomerOrderService(db).add_customer_order(customer_order_data=customer_order_data)
     await db.commit()
 
-    return {"status": "ok"}
+    return StatusOk()
 
 
 @router.put("/{customer_id}", response_model=StatusOk)
@@ -39,7 +39,7 @@ async def edit_customer_order(
     await CustomerOrderService(db).edit_customer_order(order_id=order_id, customer_order_data=customer_order_data)
     await db.commit()
 
-    return {"status": "ok"}
+    return StatusOk()
 
 
 @router.delete("/{customer_id}", status_code=204)
