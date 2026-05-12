@@ -1,3 +1,6 @@
+[tool.poetry]
+package-mode = false
+
 [project]
 name = "fastapi-my-project"
 version = "0.1.0"
@@ -5,7 +8,7 @@ description = ""
 authors = [
     {name = "youyomq",email = "you@example.com"}
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "fastapi (>=0.135.3,<0.136.0)",
     "sqlalchemy (>=2.0.49,<3.0.0)",

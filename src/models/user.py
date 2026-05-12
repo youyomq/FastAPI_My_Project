@@ -2,20 +2,10 @@ import uuid
 from uuid import UUID
 
 import sqlalchemy as sa
-from sqlalchemy.orm import DeclarativeMeta, Mapped, declarative_base, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-metadata = sa.MetaData()
+from src.models.base import Base
 
-
-class BaseServiceModel:
-    """Базовый класс для таблиц сервиса."""
-
-    @classmethod
-    def on_conflict_constraint(cls) -> tuple | None:
-        return None
-
-
-Base: DeclarativeMeta = declarative_base(metadata=metadata, cls=BaseServiceModel)
 
 class UserModel(Base):
     __tablename__ = 'users'
