@@ -1,6 +1,6 @@
 from uuid import UUID, uuid4
 
-from datetime import date
+from datetime import date, datetime
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
@@ -19,3 +19,7 @@ class LicensesOrm(Base):
     category: Mapped[str] = mapped_column(String(length=5))
     date_issue: Mapped[date] = mapped_column(default=date.today())
     date_end: Mapped[date] = mapped_column()
+
+    created_at: Mapped[datetime] = mapped_column(default=datetime.now)
+    updated_at: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now)
+    is_deleted: Mapped[bool] = mapped_column(default=False)

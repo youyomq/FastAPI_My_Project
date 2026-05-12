@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from pydantic import BaseModel
-from sqlalchemy import insert, select, delete
+from sqlalchemy import insert, select, delete, update
 from sqlalchemy.orm import selectinload
 
 from src.models.students import StudentsOrm, StudentsTeachersOrm
@@ -18,7 +18,7 @@ class StudentsRepository(BaseRepository):
         query = (
             select(self.model)
             .options(selectinload(self.model.teachers))
-            .filter(StudentsOrm.id.in_(student_ids))
+            .filter(StudentsOrm.id.in_(student_ids), self.model.is_deleted.is_(False))
         )
 
         result = await self.session.execute(query)
@@ -26,7 +26,7 @@ class StudentsRepository(BaseRepository):
 
         return [student for student in model]
 
-    async def add(self, data: BaseModel):
+    async def create(self, data: BaseModel):
         stmt = insert(self.model).values(**data.model_dump()).returning(self.model.id, self.model.name, self.model.lastname)
         result = await self.session.execute(stmt)
 
@@ -38,7 +38,7 @@ class StudentsTeachersRepository(BaseRepository):
     model = StudentsTeachersOrm
     mapper = StudentTeacherJoinDataMapper
 
-    async def add(self, data: BaseModel):
+    async def create(self, data: BaseModel):
         stmt = insert(self.model).values(**data.model_dump())
         await self.session.execute(stmt)
 
@@ -52,7 +52,7 @@ class StudentsTeachersRepository(BaseRepository):
         if teachers_ids == [None] or teachers_ids == []:
             pass
         else:
-            stmt_teachers = delete(self.model).filter(self.model.teacher_id.in_(teachers_ids))
+            stmt_teachers = update(self.model).filter(self.model.teacher_id.in_(teachers_ids)).values(is_deleted=False)
             await self.session.execute(stmt_teachers)
 
 

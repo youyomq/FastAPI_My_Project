@@ -1,4 +1,5 @@
 import typing
+from datetime import datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import String, ForeignKey
@@ -21,6 +22,10 @@ class StudentsOrm(Base):
         secondary="students_teachers",
     )
 
+    created_at: Mapped[datetime] = mapped_column(default=datetime.now)
+    updated_at: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now)
+    is_deleted: Mapped[bool] = mapped_column(default=False)
+
 
 class StudentsTeachersOrm(Base):
     __tablename__ = "students_teachers"
@@ -31,3 +36,7 @@ class StudentsTeachersOrm(Base):
     )
     teacher_id: Mapped[UUID] = mapped_column(ForeignKey("teachers.id", ondelete="CASCADE"))
     student_id: Mapped[UUID] = mapped_column(ForeignKey("students.id", ondelete="CASCADE"))
+
+    created_at: Mapped[datetime] = mapped_column(default=datetime.now)
+    updated_at: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now)
+    is_deleted: Mapped[bool] = mapped_column(default=False)

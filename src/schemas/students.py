@@ -3,28 +3,32 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict
 
 
-class StudentRequestAdd(BaseModel):
+class StudentCreateRequest(BaseModel):
     name: str
     lastname: str
 
     teachers: list[UUID] = []
 
 
-class StudentAdd(BaseModel):
+class StudentCreate(BaseModel):
     name: str
     lastname: str
 
 
-class Student(StudentAdd):
+class Student(StudentCreate):
     id: UUID
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class StudentTeacherAdd(BaseModel):
+class Students(BaseModel):
+    students: list[Student]
+
+
+class StudentTeacherCreate(BaseModel):
     teacher_id: UUID
     student_id: UUID
 
-class StudentTeacher(StudentTeacherAdd):
+class StudentTeacher(StudentTeacherCreate):
     id: UUID
 

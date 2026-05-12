@@ -1,4 +1,5 @@
 import typing
+from datetime import datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import String
@@ -24,3 +25,7 @@ class TeachersOrm(Base):
         back_populates="teachers",
         secondary="students_teachers",
     )
+
+    created_at: Mapped[datetime] = mapped_column(default=datetime.now)
+    updated_at: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now)
+    is_deleted: Mapped[bool] = mapped_column(default=False)

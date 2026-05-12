@@ -2,13 +2,14 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-class CustomerRequestAdd(BaseModel):
+class CustomerCreateRequest(BaseModel):
     name: str
 
-class CustomerAdd(BaseModel):
+class CustomerCreate(BaseModel):
     name: str
 
-class Customer(CustomerAdd):
+class Customer(BaseModel):
     id: UUID
+    name: str
 
 

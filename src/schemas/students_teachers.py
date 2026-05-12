@@ -1,32 +1,41 @@
 from uuid import UUID
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 
-from src.schemas.students import Student, StudentRequestAdd, StudentAdd
-from src.schemas.teachers import TeacherRequestAdd, TeacherAdd, Teacher
-
-
-class StudentTeacherRequestAdd(BaseModel):
-    student: StudentRequestAdd
-    teacher: TeacherRequestAdd
+from src.schemas.students import Student, StudentCreateRequest, StudentCreate, Students
+from src.schemas.teachers import TeacherCreateRequest, TeacherCreate, Teacher, Teachers
 
 
-class StudentTeacherAdd(BaseModel):
-    student: StudentAdd
-    teacher: TeacherAdd
+class StudentTeacherCreateRequest(BaseModel):
+    student: StudentCreateRequest
+    teacher: TeacherCreateRequest
+
+
+class StudentTeacherCreate(BaseModel):
+    student: StudentCreate
+    teacher: TeacherCreate
 
 
 class StudentTeacher(BaseModel):
     student: Student
     teacher: Teacher
 
+class StudentsTeachers(BaseModel):
+    students: Students
+    teachers: Teachers
 
-class StudentTeacherJoinRequestAdd(BaseModel):
+class StudentTeacherJoinCreateRequest(BaseModel):
     student_id: UUID
     teacher_id: UUID
 
-class StudentTeacherJoinAdd(BaseModel):
+class StudentTeacherJoinCreate(BaseModel):
     student_id: UUID
     teacher_id: UUID
+
+class StudentTeacherListsJoinCreate(BaseModel):
+    student: Student
+    teacher: Teacher
+    students_teachers: list[StudentTeacherJoinCreate]
+
 
 class StudentTeacherJoin(BaseModel):
     id: UUID

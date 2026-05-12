@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict
 from src.schemas.students import Student
 
 
-class TeacherRequestAdd(BaseModel):
+class TeacherCreateRequest(BaseModel):
     name: str
     lastname: str
     subject: str
@@ -13,14 +13,20 @@ class TeacherRequestAdd(BaseModel):
     students: list[UUID] = []
 
 
-class TeacherAdd(BaseModel):
+class TeacherCreate(BaseModel):
     name: str
     lastname: str
     subject: str
 
 
-
-class Teacher(TeacherAdd):
+class Teacher(TeacherCreate):
     id: UUID
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class Teachers(BaseModel):
+    teachers: list[Teacher]
+
 
 

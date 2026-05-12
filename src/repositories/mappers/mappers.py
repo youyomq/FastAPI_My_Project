@@ -10,18 +10,18 @@ from src.models.teachers import TeachersOrm
 from src.models.drivers import DriversOrm
 from src.models.licenses import LicensesOrm
 from src.schemas.teachers import Teacher
-from src.schemas.licenses import LicenseAdd
+from src.schemas.licenses import LicenseCreate
 from src.repositories.mappers.base import DataMapper
-from src.schemas.drivers import DriverAdd
+from src.schemas.drivers import DriverCreate
 
 
 class DriverDataMapper(DataMapper):
     db_model = DriversOrm
-    schema = DriverAdd
+    schema = DriverCreate
 
 class LicenseDataMapper(DataMapper):
     db_model = LicensesOrm
-    schema = LicenseAdd
+    schema = LicenseCreate
 
 class TeacherDataMapper(DataMapper):
     db_model = TeachersOrm

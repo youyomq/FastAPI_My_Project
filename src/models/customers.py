@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import String
@@ -12,10 +13,14 @@ class CustomersOrm(Base):
         primary_key=True,
         default=uuid4
     )
-    name: Mapped[str] = mapped_column(String(length=50), unique=True)
+    name: Mapped[str] = mapped_column(String(length=50))
 
     orders = relationship(
         "OrdersOrm",
         back_populates="customer",
         cascade="save-update, merge, delete"
     )
+
+    created_at: Mapped[datetime] = mapped_column(default=datetime.now)
+    updated_at: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now)
+    is_deleted: Mapped[bool] = mapped_column(default=False)

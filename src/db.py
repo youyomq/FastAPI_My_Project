@@ -1,11 +1,6 @@
-from contextlib import asynccontextmanager
-from typing import Annotated
-
-from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from src.config import Settings
-from src.utils.db_manager import DBManager
 
 settings = Settings()
 

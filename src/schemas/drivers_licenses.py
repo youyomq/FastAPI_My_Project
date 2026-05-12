@@ -1,18 +1,19 @@
 from pydantic import BaseModel, ConfigDict
 
-from schemas.licenses import LicenseAdd, LicenseRequestAdd
-from schemas.drivers import DriverAdd, DriverRequestAdd
+from schemas.licenses import LicenseCreate, LicenseCreateRequest, License
+from schemas.drivers import DriverCreate, DriverCreateRequest, Driver
 
 
-class DriverLicenseRequestAdd(BaseModel):
-    driver: DriverRequestAdd
-    license: LicenseRequestAdd
+class DriverLicenseCreateRequest(BaseModel):
+    driver: DriverCreateRequest
+    license: LicenseCreateRequest
 
 
-class DriverLicenseAdd(BaseModel):
-    driver: DriverAdd
-    license: LicenseAdd
+class DriverLicenseCreate(BaseModel):
+    driver: DriverCreate
+    license: LicenseCreate
 
 
-class DriverLicense(DriverLicenseAdd):
-    model_config = ConfigDict(from_attributes=True)
+class DriverLicense(DriverLicenseCreate):
+    driver: Driver
+    license: License

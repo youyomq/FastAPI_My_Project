@@ -1,7 +1,10 @@
-from src.utils.db_manager import DBManager
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from dependencies import DBDep
+
 
 class BaseService:
-    db: DBManager | None
+    db: DBDep | None
 
-    def __init__(self, db: DBManager | None = None) -> None:
+    def __init__(self, db: DBDep | None = None) -> None:
         self.db = db

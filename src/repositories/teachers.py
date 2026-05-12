@@ -15,7 +15,7 @@ class TeachersRepository(BaseRepository):
         query = (
             select(self.model)
             .options(selectinload(self.model.students))
-            .filter(self.model.id.in_(teachers_ids))
+            .filter(self.model.id.in_(teachers_ids), self.model.is_deleted.is_(False))
         )
 
         result = await self.session.execute(query)
@@ -23,7 +23,7 @@ class TeachersRepository(BaseRepository):
 
         return [teacher for teacher in model]
 
-    async def add(self, data: BaseModel):
+    async def create(self, data: BaseModel):
         stmt = insert(self.model).values(**data.model_dump()).returning(TeachersOrm.id,
                                                                         TeachersOrm.name,
                                                                         TeachersOrm.lastname,

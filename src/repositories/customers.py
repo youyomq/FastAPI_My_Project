@@ -14,7 +14,7 @@ class CustomersRepository(BaseRepository):
         query = (
             select(self.model)
             .options(selectinload(self.model.orders))
-            .filter_by(id=customer_id)
+            .filter_by(id=customer_id, is_deleted=False)
         )
 
         result = await self.session.execute(query)
